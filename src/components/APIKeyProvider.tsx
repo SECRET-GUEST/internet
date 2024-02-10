@@ -8,8 +8,8 @@ const APIKeyProvider: React.FC<APIKeyProviderProps> = ({ children }) => {
   const [apiKey, setApiKey] = useState<string>('');
 
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_API_KEY || '';
-    setApiKey(apiKey);
+    const key = import.meta.env.VITE_API_KEY as string;
+    setApiKey(key);
   }, []);
 
   return <>{children(apiKey)}</>;
