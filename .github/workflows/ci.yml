@@ -25,8 +25,8 @@ jobs:
     - name: Build
       run: npm run build
       env:
-        REACT_APP_ARCHIVE_ACCESS_KEY: ${{ secrets.ARCHIVE_ACCESS_KEY }}
-        REACT_APP_ARCHIVE_SECRET_KEY: ${{ secrets.ARCHIVE_SECRET_KEY }}
+        VITE_ARCHIVE_ACCESS_KEY: ${{ secrets.ARCHIVE_ACCESS_KEY }}
+        VITE_ARCHIVE_SECRET_KEY: ${{ secrets.ARCHIVE_SECRET_KEY }}
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.4
