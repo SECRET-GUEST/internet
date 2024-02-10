@@ -8,34 +8,29 @@ interface MediaPlayerProps {
 
 const MediaPlayer: React.FC<MediaPlayerProps> = ({ apiKey }) => {
   const [videoUrl, setVideoUrl] = useState<string>('');
-  const [playTime, setPlayTime] = useState({ start: 0, duration: 5 });
+
+  const fetchRandomVideo = async () => {
+    try {
+      const skipCount = Math.floor(Math.random() * 99999); // Nombre aléatoire de vidéos à sauter
+      const response = await axios.get(`https://archive.org/services/search/v1/scrape?fields=identifier&q=your_search_query&cursor=${skipCount}`, {
+        headers: { 'Authorization': `Bearer ${apiKey}` }
+      });
+
+      if (response.data && response.data.items.length > 0) {
+        const identifier = response.data.items[0].identifier;
+        const videoFileUrl = `https://archive.org/download/${identifier}/${identifier}.mp4`; // Construire l'URL de la vidéo
+        setVideoUrl(videoFileUrl);
+      } else {
+        console.error('Aucune vidéo trouvée.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la vidéo', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchRandomVideo = async () => {
-      try {
-        const response = await axios.get('http://s3.us.archive.org/?check_limit=1', {
-          headers: { 'Authorization': `LOW ${apiKey}:` }
-        });
-
-        if (response.data && response.data.url) {
-          setVideoUrl(response.data.url);
-          const startTime = Math.random() * (60 - 5);
-          const durationTime = 5 + Math.random() * (28 - 5);
-          setPlayTime({ start: startTime, duration: durationTime });
-        } else {
-          console.error('La réponse de l\'API ne contient pas d\'URL de vidéo.');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération de la vidéo', error);
-      }
-    };
-
     fetchRandomVideo();
-
-    const intervalId = setInterval(fetchRandomVideo, playTime.duration * 1000);
-
-    return () => clearInterval(intervalId);
-  }, [playTime.duration, apiKey]);
+  }, [apiKey]);
 
   return (
     <div className="media-player-wrapper">
