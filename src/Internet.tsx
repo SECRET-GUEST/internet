@@ -1,4 +1,3 @@
-// src/Internet.tsx
 import APIKeyProvider from './components/APIKeyProvider';
 import MediaPlayer from './components/MediaPlayer';
 
