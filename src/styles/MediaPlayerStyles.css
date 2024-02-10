@@ -1,0 +1,8 @@
+/* src/styles/MediaPlayerStyles.css */
+.media-player-wrapper {
+    width: 180%;
+    height: 100vh; /* Hauteur complète de la vue */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
